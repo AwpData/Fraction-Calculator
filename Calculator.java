@@ -96,7 +96,7 @@ public class Calculator {
 					try {
 						throw new Exception("Invalid Operators");
 					} catch (Exception e) {
-						e.printStackTrace(); // look here
+						e.printStackTrace();
 					}
 				}
 				System.out.println();
