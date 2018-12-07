@@ -7,9 +7,10 @@ import java.util.Scanner;
 //Can simplify improper fractions, mixed numbers, and regular fractions (Negatives and Positives) 
 //Can print out improper fractions as Mixed number or just a whole number   
 
-//NEEDS: 
+//ERRORS:
 //prints 0 1/-2 on 1 / -2
 //Scanner.throwfor() on 34_5/6 - 1_2/3
+
 //TEST CASES: 
 
 
