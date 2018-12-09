@@ -1,18 +1,20 @@
 import java.util.Scanner;
-
 //WHAT THIS PROGRAM CAN DO:   
 //Can check and print inputed fractions (mixed numbers and regular) 
 //Can print whole numbers
 //Can check if improper fraction  
 //Can simplify improper fractions, mixed numbers, and regular fractions (Negatives and Positives) 
 //Can print out improper fractions as Mixed number or just a whole number   
-
 //ERRORS:
-//prints 0 1/-2 on 1 / -2
-//Scanner.throwfor() on 34_5/6 - 1_2/3
+/*
+prints -152339/29281 on 543/987 - 5_67/89
+prints 0 726/-289047246 on 22/246813 * 33/51034
+prints -3/2 on -3/4 / 1/2
+prints -11/7 on 33/7 * -1/3
+prints -3/1 on 6/9 - 3_2/3 
+*/ //FIX NEGATIVE NUMERATOR NUMBER SIMPLIFICATION 
 
 //TEST CASES: 
-
 
 public class Calculator {
 	public static void main(String[] args) {
@@ -28,7 +30,6 @@ public class Calculator {
 			if (UserWantsToQuit) {
 				runprogram = false;
 				break;
-
 			} else { // user enters an equation
 				Scanner parse = new Scanner(choice); // scans the equation for individual elements
 				fraction1 = parse.next(); // gets first fraction
@@ -41,11 +42,9 @@ public class Calculator {
 				if (fraction2.contains("_")) { // Checks if there is a whole number
 					wholenum = fraction2.substring(0, fraction2.indexOf("_"));
 					fraction2 = improperfraction(wholenum, fraction2);
-
 					if (fraction1.contains("_") || fraction2.contains("_")) {
 						System.out.println(fraction1 + " " + operator + " " + fraction2);
 					}
-
 				} else if (!fraction1.contains("/") && !fraction2.contains("/")) {
 					int whole = Integer.valueOf(fraction1);
 					int whole2 = Integer.valueOf(fraction2);
@@ -108,17 +107,18 @@ public class Calculator {
 	public static String improperfraction(String wholenum, String fraction) {
 		int wholenum1 = Integer.valueOf(wholenum);
 		if (wholenum1 < 0) {
-			Scanner num = new Scanner(fraction.substring(3)).useDelimiter("/");
+			Scanner num = new Scanner(fraction.substring(fraction.indexOf("_") + 1)).useDelimiter("/");
 			int numerator = num.nextInt();
 			int denominator = num.nextInt();
 			numerator = denominator * wholenum1 + numerator;
 			return (numerator + "/" + denominator);
 		} else {
-			Scanner num = new Scanner(fraction.substring(2)).useDelimiter("/");
+			Scanner num = new Scanner(fraction.substring(fraction.indexOf("_") + 1)).useDelimiter("/");
 			int numerator = num.nextInt();
 			int denominator = num.nextInt();
 			numerator = denominator * wholenum1 + numerator;
 			return (numerator + "/" + denominator);
+			// 34_5/6 + 1_2/3
 		}
 	}
 
