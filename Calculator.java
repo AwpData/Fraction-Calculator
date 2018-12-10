@@ -5,16 +5,38 @@ import java.util.Scanner;
 //Can check if improper fraction  
 //Can simplify improper fractions, mixed numbers, and regular fractions (Negatives and Positives) 
 //Can print out improper fractions as Mixed number or just a whole number   
+
 //ERRORS:
 /*
-prints -152339/29281 on 543/987 - 5_67/89
+Can't handle BigInteger numbers 
 prints 0 726/-289047246 on 22/246813 * 33/51034
-prints -3/2 on -3/4 / 1/2
-prints -11/7 on 33/7 * -1/3
-prints -3/1 on 6/9 - 3_2/3 
-*/ //FIX NEGATIVE NUMERATOR NUMBER SIMPLIFICATION 
+*/
 
-//TEST CASES: 
+/*TEST CASES: 
+1/2 + 1/3		5/6 OK
+1/2 + 1/2		1 OK
+3/4 - 3/4		0 OK
+-1/2 + 1/2		0 OK
+34_5/6 - 1_2/3		33_1/6 OK
+756/234 + 123/789		3_1322/3419 OK
+1_1/2 * 3/4		 1_1/8 OK
+543/987 - 5_67/89		-5_5934/29281 OK
+543/987 / 5_67/89		16109/168448 OK
+543/987 * 5_67/89		3_4829/29281 OK
+543/987 + 5_67/89		6_8871/29281 OK
+22/246813 * 33/51034		121/2099309107 broken 
+3/4 / 1/2		1_1/2 OK
+-3/4 / 1/2		-1_1/2 OK
+3_5/6 / 34/12		1_6/17 OK
+3_5/6 * 34/12		10_31/36 OK
+33/7 * -1/3		-1_4/7 OK
+54/321 - 23/67		-1255/7169 OK
+4/8 - 1/3		1/6 OK
+6/9 - 3_2/3		-3 OK
+1 + 1
+
+5/8	^	5/6	THIS ONE WORKS!!	Try catch 
+ */
 
 public class Calculator {
 	public static void main(String[] args) {
@@ -201,7 +223,7 @@ public class Calculator {
 		boolean NumeratorAndDenominatorAreSameNum = (denominator == 1 || numerator == denominator);
 		boolean improperfraction = numerator > denominator;
 		boolean DividesIntoWholeNumber = wholenum > 0 && remainder == 0;
-		if (numerator < 0) { // LOOK HERE!!!!
+		if (numerator < 0) { // if the number is negative
 			numerator *= -1;
 			for (int i = denominator; i > 0; i--) {
 				if (denominator % i == 0 && numerator % i == 0) { // Simplifies fractions like 64/66 and 32/34 with GCF
@@ -239,10 +261,41 @@ public class Calculator {
 				if (numerator == 0) {
 					System.out.println("0");
 				} else {
-					System.out.println(numerator + "/" + denominator);
+					if (numerator < 0) { // This simplifies the negative division and multiplication of improper
+						// negatives
+						numerator *= -1;
+						wholenum = numerator / denominator;
+						remainder = numerator % denominator;
+						if (DividesIntoWholeNumber) {
+							wholenum *= -1;
+							System.out.println(wholenum);
+						} else { // if (HasAFractionAfterWholeNumber)
+							numerator = remainder;
+							if (numerator == 0) {
+								wholenum *= -1;
+								System.out.println(wholenum);
+							} else if (denominator % numerator == 0) {
+								denominator /= numerator;
+								numerator /= numerator;
+								wholenum *= -1;
+								System.out.println(wholenum + " " + numerator + "/" + denominator);
+							} else {
+								wholenum *= -1;
+								if (wholenum == 0) {
+									numerator *= -1;
+									System.out.println(numerator + "/" + denominator);
+								} else {
+									System.out.println(wholenum + " " + numerator + "/" + denominator);
+								}
+							}
+						}
+					} else {
+						System.out.println(numerator + "/" + denominator);
+					}
 				}
 			}
-		} else {
+
+		} else { // If the number is positive
 			for (int i = denominator; i > 0; i--) {
 				if (denominator % i == 0 && numerator % i == 0) { // Simplifies fractions like 64/66 and 32/34 with GCF
 					denominator /= i;
